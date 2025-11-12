@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1762938850 source:c:\users\20022682\desktop\cproject\hello world\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	<conio.h>
+	<time.h>
+	<windows.h>
+	"fonts.h"
+
+1762936245 c:\users\20022682\desktop\cproject\hello world\fonts.h
+	<stdint.h>
+
+1762951929 source:c:\users\vedant bhale\desktop\c project\hello world\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdint.h>
+	<stdbool.h>
+	<conio.h>
+	<time.h>
+	<windows.h>
+	"fonts.h"
+
+1762949754 c:\users\vedant bhale\desktop\c project\hello world\fonts.h
+	<stdint.h>
+
