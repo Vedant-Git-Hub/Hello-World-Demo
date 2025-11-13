@@ -14,6 +14,29 @@
 /*Number of columns in display buffer.(Consider your display width while changing this.)*/
 #define BUFF_COL                            17
 
+/*Enum for color in which the text should be printed*/
+typedef enum{
+    NO_COLOR = 0,
+    /*Normal color*/
+    BLACK = 30,
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE,
+    MAGENTA,
+    CYIAN,
+    WHITE,
+    /*Bold colors*/
+    B_BLACK = 90,
+    B_RED,
+    B_GREEN,
+    B_YELLOW,
+    B_BLUE,
+    B_MAGENTA,
+    B_CYIAN,
+    B_WHITE,
+}E_COLOR;
+
 
 /*String to statically print or scroll(Change it to what needs to be displayed)*/
 static char string0_to_print[] = "Hello World!";
@@ -136,7 +159,7 @@ void copyStatTextToBuff(char *str, uint16_t str_len)
 }
 
 /*Prints latest updated display buffer to the console using the pattern character provided by the user.*/
-void printBuff(char pat)
+void printBuff(char pat, uint8_t color)
 {
     /*In the display buffer, in place of 1 in the bit position pattern character is printed and a space is
     printed in place of 0.*/
@@ -150,7 +173,7 @@ void printBuff(char pat)
             {
                 if((temp >> shift) & 0x01)
                 {
-                    printf("%c", pat);
+                    printf("\033[%dm%c\033[0m", color, pat);
                 }
                 else
                 {
@@ -182,7 +205,7 @@ void shiftDisplay()
 }
 
 /*Function to scroll text from right to left.*/
-void scrollText(char *str, uint16_t str_len, char pat, uint8_t speed)
+void scrollText(char *str, uint16_t str_len, char pat, uint8_t speed, uint8_t color)
 {
     /*Holds the current scroll status*/
     bool scroll_complete = false;
@@ -192,7 +215,7 @@ void scrollText(char *str, uint16_t str_len, char pat, uint8_t speed)
         /*Adds font data to display buffer*/
         scroll_complete = copyAlphToBuff(str, str_len);
         /*Prints the display buffer to the console*/
-        printBuff(pat);
+        printBuff(pat, color);
         /*Sleeps for few milliseconds, change this timing to adjust scrolling speed*/
         Sleep(10 * speed);
         /*Sets the cursor position to origin (0,0)*/
@@ -210,12 +233,12 @@ void scrollText(char *str, uint16_t str_len, char pat, uint8_t speed)
 }
 
 /*Prints static text on console*/
-void staticText(char *str, uint16_t str_len, char pat)
+void staticText(char *str, uint16_t str_len, char pat, uint8_t color)
 {
     /*Copies text to display buffer*/
     copyStatTextToBuff(str, str_len);
     /*Prints the display buffer on console.*/
-    printBuff(pat);
+    printBuff(pat, color);
     /*Set cursor to home position*/
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), home);
     /*Clear display buffer*/
@@ -227,12 +250,12 @@ int main()
     while(1)
     {
         /*Display static text*/
-        staticText(string0_to_print, strlen(string0_to_print), pattern0_char);
+        staticText(string0_to_print, strlen(string0_to_print), pattern0_char, RED);
         /*Just a delay*/
         Sleep(5000);
         /*Scroll text*/
-        scrollText(string1_to_print, strlen(string1_to_print), pattern1_char, scrolling_speed1);
-        scrollText(string2_to_print, strlen(string2_to_print), pattern2_char, scrolling_speed2);
+        scrollText(string1_to_print, strlen(string1_to_print), pattern1_char, scrolling_speed1, B_GREEN);
+        scrollText(string2_to_print, strlen(string2_to_print), pattern2_char, scrolling_speed2, B_MAGENTA);
 
     }
     return 0;
